@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Búsqueda de Snacks</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .search-box { background-color: #f8f9fa; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .result-count { font-size: 1.1em; color: #6c757d; margin-bottom: 15px; }
+        .snack-card { transition: transform 0.2s; }
+        .snack-card:hover { transform: scale(1.02); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'peliculas:pelicula_list' %}">Cine API</a>
+            <div class="navbar-nav">
+                <a class="nav-link active" href="{% url 'snacks:snack_search' %}">Snacks</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="search-box">
+            <h2 class="mb-4">🍿 Buscar Snacks</h2>
+            <form method="get" action="{% url 'snacks:snack_search' %}">
+                <div class="row g-3">
+                    <div class="col-md-10">
+                        <input type="text" name="q" class="form-control form-control-lg"
+                               placeholder="Buscar por nombre del snack..."
+                               value="{{ query }}">
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Buscar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        {% if query %}
+        <div class="result-count">
+            Se encontraron {{ resultados }} resultado{{ resultados|pluralize:"s" }} para "{{ query }}"
+        </div>
+        {% endif %}
+
+        <div class="row">
+            {% for snack in snacks %}
+            <div class="col-md-4 mb-3">
+                <div class="card snack-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ snack.producto }}</h5>
+                        <p class="card-text">
+                            <strong>Precio:</strong> ${{ snack.precio_unitario }}<br>
+                            <strong>Cantidad disponible:</strong> {{ snack.cantidad }}<br>
+                            <strong>Registro:</strong> {{ snack.fecha_registro|date:"d/m/Y" }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            {% if query %}
+            <div class="col-12">
+                <div class="alert alert-info">
+                    No se encontraron snacks que coincidan con "{{ query }}"
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Paginación -->
+        {% if is_paginated %}
+        <nav class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?q={{ query }}&page={{ page_obj.previous_page_number }}">&laquo;</a>
+                </li>
+                {% endif %}
+
+                {% for i in paginator.page_range %}
+                <li class="page-item {% if page_obj.number == i %}active{% endif %}">
+                    <a class="page-link" href="?q={{ query }}&page={{ i }}">{{ i }}</a>
+                </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?q={{ query }}&page={{ page_obj.next_page_number }}">&raquo;</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

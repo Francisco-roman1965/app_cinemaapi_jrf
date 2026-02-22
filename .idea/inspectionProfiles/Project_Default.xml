@@ -1,0 +1,41 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <list>
+          <option value="asgiref" />
+          <option value="Django" />
+          <option value="numpy" />
+          <option value="pandas" />
+          <option value="pdf-maker" />
+          <option value="python-dateutil" />
+          <option value="pytz" />
+          <option value="six" />
+          <option value="sqlparse" />
+          <option value="tzdata" />
+          <option value="cffi" />
+          <option value="clr_loader" />
+          <option value="contourpy" />
+          <option value="cycler" />
+          <option value="fonttools" />
+          <option value="IronPdf" />
+          <option value="kiwisolver" />
+          <option value="matplotlib" />
+          <option value="mysql" />
+          <option value="mysqlclient" />
+          <option value="packaging" />
+          <option value="pdfmarker" />
+          <option value="pillow" />
+          <option value="pycparser" />
+          <option value="PyMuPDF" />
+          <option value="pyparsing" />
+          <option value="pythonnet" />
+          <option value="seaborn" />
+          <option value="psycopg" />
+          <option value="psycopg-binary" />
+        </list>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
